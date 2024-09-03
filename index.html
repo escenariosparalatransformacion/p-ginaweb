@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Integrado de Riesgo - Zulia, Falcón y Lara</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tab:hover {
+            background-color: #d0d0d0;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .flex-item {
+            width: 48%;
+            margin-bottom: 20px;
+        }
+        .risk-area, .critical-municipality {
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .risk-area h3, .critical-municipality h3 {
+            color: #e74c3c;
+            margin-top: 0;
+        }
+        .demographic {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        .recommendations {
+            background-color: #2ecc71;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .recommendations h2 {
+            color: white;
+        }
+        .recommendations ul {
+            padding-left: 20px;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análisis Integrado de Riesgo, Vulnerabilidad y Severidad</h1>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'zulia')">Zulia</button>
+            <button class="tab" onclick="openTab(event, 'falcon')">Falcón</button>
+            <button class="tab" onclick="openTab(event, 'lara')">Lara</button>
+            <button class="tab" onclick="openTab(event, 'comparativo')">Comparativo</button>
+            <button class="tab" onclick="openTab(event, 'recomendaciones')">Recomendaciones</button>
+        </div>
+
+        <div id="zulia" class="tab-content active">
+            <h2>Zulia</h2>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <div class="risk-area">
+                        <h3>Zonas de Riesgo</h3>
+                        <p>Alta exposición a inundaciones en la costa del Lago de Maracaibo y moderada exposición a flujos de lodo y deslizamientos en la Sierra de Perijá.</p>
+                    </div>
+                    <div class="critical-municipality">
+                        <h3>Municipios Críticos</h3>
+                        <p>21 municipios con riesgo de inundación, %PIN entre 44% y 51%, severidades de 3 a 4.</p>
+                        <h4>Catatumbo</h4>
+                        <p>Riesgo grave de inundación, severidad 4, 49.9% PIN (20,297). Sectores críticos: WASH, SEGAL y Salud.</p>
+                        <p class="demographic">Alta vulnerabilidad de niños, niñas, mujeres embarazadas y adultos mayores.</p>
+                        <h4>Maracaibo</h4>
+                        <p>Riesgo moderado de inundación, severidad 3, 66.4% PIN (971,044). Sectores afectados: SEGAL, Salud y Educación.</p>
+                        <p class="demographic">247,771 niños y 236,433 niñas menores de 10 años en riesgo de desnutrición.</p>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <div class="chart-container">
+                        <canvas id="zuliaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="falcon" class="tab-content">
+            <h2>Falcón</h2>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <div class="risk-area">
+                        <h3>Zonas de Riesgo</h3>
+                        <p>Alta exposición a inundaciones en la costa y moderada exposición a flujos de lodo en la Sierra de San Luis.</p>
+                    </div>
+                    <div class="critical-municipality">
+                        <h3>Municipios Críticos</h3>
+                        <p>25 municipios con %PIN entre 48.2% y 63.7%, severidades entre 2 y 4.</p>
+                        <h4>Federación</h4>
+                        <p>Severidad 2, 58.8% PIN. Vulnerable a flujos de lodo.</p>
+                        <h4>Carirubana</h4>
+                        <p>Severidad 3, 59.6% PIN. Riesgo de inundaciones.</p>
+                        <h4>Sierra de San Luis</h4>
+                        <p>Petit, Bolívar y Sucre: riesgo moderado de flujo de lodo, %PIN de 45.5%, 100% y 49.5% respectivamente.</p>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <div class="chart-container">
+                        <canvas id="falconChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="lara" class="tab-content">
+            <h2>Lara</h2>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <div class="risk-area">
+                        <h3>Zonas de Riesgo</h3>
+                        <p>Moderado a alto riesgo de flujos de lodo y deslizamientos en la Cordillera de la Costa.</p>
+                    </div>
+                    <div class="critical-municipality">
+                        <h3>Municipios Críticos</h3>
+                        <p>9 municipios con %PIN entre 47.7% y 50.5%.</p>
+                        <h4>Iribarren</h4>
+                        <p>Riesgo grave de flujos de lodo y deslizamientos, severidad 3, 54.9% PIN.</p>
+                        <p class="demographic">94,388 mujeres y 67,110 hombres adultos mayores en situación vulnerable.</p>
+                        <h4>Cordillera de la Costa</h4>
+                        <p>Andrés Eloy Blanco, Crespo, Jiménez, Morán, Palavecino, Simón Planas, Torres y Urdaneta: riesgo moderado a alto de flujos de lodo y deslizamientos, severidad entre 2 y 4.</p>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    <div class="chart-container">
+                        <canvas id="laraChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="comparativo" class="tab-content">
+            <h2>Análisis Comparativo</h2>
+            <div class="chart-container">
+                <canvas id="comparativeChart"></canvas>
+            </div>
+            <p>Este gráfico muestra una comparación de los porcentajes de población en necesidad (PIN) y niveles de severidad entre los estados de Zulia, Falcón y Lara. Se puede observar que todos los estados presentan altos niveles de vulnerabilidad, con Zulia mostrando los porcentajes más altos de PIN en algunos municipios.</p>
+        </div>
+
+        <div id="recomendaciones" class="tab-content">
+            <div class="recommendations">
+                <h2>Conclusiones y Recomendaciones</h2>
+                <ul>
+                    <li>Crisis humanitaria severa en los tres estados.</li>
+                    <li>Alta convergencia de riesgos de desastres naturales y vulnerabilidad poblacional.</li>
+                    <li>Impacto diferenciado por municipio y grupo demográfico.</li>
+                    <li>Priorizar la atención humanitaria y la gestión de riesgos.</li>
+                    <li>Fortalecer sistemas de alerta temprana y planes de contingencia inclusivos.</li>
+                    <li>Desarrollar resiliencia comunitaria.</li>
+                    <li>Mejorar la recopilación y análisis de datos desagregados.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabContent, tabLinks;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            tabLinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Zulia Chart
+        var ctxZulia = document.getElementById('zuliaChart').getContext('2d');
+        var zuliaChart = new Chart(ctxZulia, {
+            type: 'bar',
+            data: {
+                labels: ['Catatumbo', 'Maracaibo', 'Machiques de Perijá', 'Jesús E. Lossada', 'Rosario de Perijá'],
+                datasets: [{
+                    label: '% Población en Necesidad (PIN)',
+                    data: [49.9, 66.4, 78.6, 52.9, 49.9],
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Porcentaje de Población en Necesidad (PIN) en Municipios Críticos de Zulia'
+                    }
+                }
+            }
+        });
+
+        // Falcón Chart
+        var ctxFalcon = document.getElementById('falconChart').getContext('2d');
+        var falconChart = new Chart(ctxFalcon, {
+            type: 'bar',
+            data: {
+                labels: ['Federación', 'Carirubana', 'Petit', 'Bolívar', 'Sucre'],
+                datasets: [{
+                    label: '% Población en Necesidad (PIN)',
+                    data: [58.8, 59.6, 45.5, 100, 49.5],
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Porcentaje de Población en Necesidad (PIN) en Municipios Críticos de Falcón'
+                    }
+                }
+            }
+        });
+
+        // Lara Chart
+        var ctxLara = document.getElementById('laraChart').getContext('2d');
+        var laraChart = new Chart(ctxLara, {
+            type: 'bar',
+            data: {
+                labels: ['Iribarren', 'Andrés Eloy Blanco', 'Crespo', 'Jiménez', 'Morán'],
+                datasets: [{
+                    label: '% Población en Necesidad (PIN)',
+                    data: [54.9, 48.5, 49.2, 50.1, 47.7],
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Porcentaje de Población en Necesidad (PIN) en Municipios Críticos de Lara'
+                    }
+                }
+            }
+        });
+
+        // Comparative Chart
+               var ctxComparative = document.getElementById('comparativeChart').getContext('2d');
+        var comparativeChart = new Chart(ctxComparative, {
+            type: 'radar',
+            data: {
+                labels: ['Riesgo de Inundación', 'Riesgo de Flujo de Lodo', 'Severidad de Necesidades', '% Población en Necesidad', 'Vulnerabilidad Demográfica'],
+                datasets: [{
+                    label: 'Zulia',
+                    data: [9, 6, 8, 9, 8],
+                    fill: true,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    pointBackgroundColor: 'rgb(255, 99, 132)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(255, 99, 132)'
+                }, {
+                    label: 'Falcón',
+                    data: [8, 7, 7, 8, 7],
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    pointBackgroundColor: 'rgb(54, 162, 235)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(54, 162, 235)'
+                }, {
+                    label: 'Lara',
+                    data: [6, 8, 7, 7, 8],
+                    fill: true,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    pointBackgroundColor: 'rgb(75, 192, 192)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(75, 192, 192)'
+                }]
+            },
+            options: {
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: false
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Comparación de Riesgos y Vulnerabilidades entre Estados'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Función para actualizar los gráficos cuando se cambia de pestaña
+        function updateCharts() {
+            zuliaChart.update();
+            falconChart.update();
+            laraChart.update();
+            comparativeChart.update();
+        }
+
+        // Añadir evento de actualización a las pestañas
+        var tabs = document.getElementsByClassName('tab');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].addEventListener('click', updateCharts);
+        }
+
+        // Inicializar la primera pestaña como activa
+        document.getElementsByClassName('tab')[0].click();
+    </script>
+</body>
+</html>
